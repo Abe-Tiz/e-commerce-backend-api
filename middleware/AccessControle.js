@@ -1,4 +1,3 @@
-// middlewares/abilities.js
 const { Ability, AbilityBuilder } = require("@casl/ability");
 
 const defineAbilitiesFor = (user) => {

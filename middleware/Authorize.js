@@ -1,7 +1,5 @@
 const { defineAbilitiesFor } = require("./AccessControle");
 
- 
-
 const checkAbility = (action, subject) => {
   return (req, res, next) => {
     console.log("user",req.user)

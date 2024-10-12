@@ -13,24 +13,28 @@ router.post(
     checkAbility('create', 'Product'),
   createProduct
 );
+
 router.get(
   "/view",
   authenticateUser,
   checkAbility("read", "Product"),
   getProducts
 );
+
 router.get(
   "/view/:id",
   authenticateUser,
   checkAbility("read", "Product"),
   getProductById
 );
+
 router.put(
   "/update/:id",
   authenticateUser,
   checkAbility("update", "Product"),
   updateProduct
 );
+
 router.delete(
   "/delete/:id",
   authenticateUser,
