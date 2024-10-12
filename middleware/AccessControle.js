@@ -7,6 +7,7 @@ const defineAbilitiesFor = (user) => {
     can("manage", "Product"); 
   } else {
     can("read", "Product"); 
+    can("create", "Order"); 
   }
   return new Ability(rules);
 };

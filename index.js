@@ -8,6 +8,7 @@ const port = process.env.PORT;
 
 const userRoutes = require("./routes/UserRoute")
 const productRoutes = require("./routes/ProductRoute");
+const orderRoutes = require("./routes/OrderRoute");
 
 const app = express();
 app.use(cors());
@@ -17,6 +18,7 @@ checkConnection();
 
 app.use("/user", userRoutes);
 app.use("/product", productRoutes);
+app.use("/order", orderRoutes);
 
 
 app.listen(port, () => {

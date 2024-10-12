@@ -40,6 +40,15 @@ const findById = async (id) => {
        message: "Product successfully deleted",
        product: result.rows[0],
      };
+}
+  
+  // Update stock method
+  const updateStock = async (productId, quantityChange) => {
+    const result = await pool.query(
+      'UPDATE products SET stock = stock + $1 WHERE id = $2 RETURNING *',
+      [quantityChange, productId]
+    );
+    return result.rows[0];  
   }
   
     module.exports = {
@@ -48,4 +57,5 @@ const findById = async (id) => {
       findById,
       update,
       deleteProduct,
+      updateStock,
     };
