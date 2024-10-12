@@ -31,8 +31,6 @@ const login = async (req, res) => {
       .status(400)
       .json({ message: validationResult.error.errors[0].message });
     }
-    
-  // Extract validated data
   const { email, password } = validationResult.data;
   try {
     const user = await findUserByEmail(email);
@@ -42,7 +40,9 @@ const login = async (req, res) => {
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
       return res.status(400).json({ message: "Invalid email or password" });
-    }
+      }
+      req.user = { id: user.id, role: user.role };
+
     const token = jwt.sign(
       { id: user.id, role: user.role },
       process.env.JWT_SECRET,
