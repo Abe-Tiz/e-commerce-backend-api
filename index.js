@@ -5,7 +5,6 @@ const dotenv = require("dotenv");
 const { checkConnection } = require("./config/DbConnection");
 dotenv.config();
 const port = process.env.PORT;
-
 const userRoutes = require("./routes/UserRoute")
 const productRoutes = require("./routes/ProductRoute");
 const orderRoutes = require("./routes/OrderRoute");
@@ -17,6 +16,7 @@ app.use(cors());
 app.use(express.json());
 app.use(requestLogger);
 
+// database connection
 checkConnection();
 
 app.use("/user", userRoutes);
@@ -28,3 +28,6 @@ app.use("/logge", loggeRoutes);
 app.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
+
+
+module.exports = app; 

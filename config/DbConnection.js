@@ -1,4 +1,3 @@
-
 const { Pool } = require("pg");
 require("dotenv").config();
 
@@ -9,7 +8,6 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
 });
-
 
 // Check the PostgreSQL connection
 const checkConnection = async () => {
