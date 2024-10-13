@@ -17,7 +17,6 @@ const placeOrder = async (req, res) => {
 
   const client = await pool.connect();
   try {
-    // beggining of transaction to check the stock status
     await client.query("BEGIN");
     for (const item of products) {
       const product = await findById(item.product_id);
