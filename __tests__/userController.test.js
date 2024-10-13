@@ -6,11 +6,12 @@ describe("User API", () => {
     const response = await request(app)
       .post("/user/register")
       .send({
-        username: "testuser",
-        email: "test12@gmail.com",
-        password: "password123",
-        role: "admin"
+        username: "ayele",
+        email: "ayele@example.com",
+        password: "pass",
+        role: "user"
       });
+     
     expect(response.status).toBe(201);
     expect(response.body.message).toBe("User registered successfully");
   });
@@ -26,4 +27,8 @@ describe("User API", () => {
     expect(response.body.message).toBe("Login successful");
     expect(response.body).toHaveProperty("token");
   });
+});
+
+afterAll((done) => {
+  done();
 });

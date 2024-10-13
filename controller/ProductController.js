@@ -96,7 +96,7 @@ const deleteProducts = async (req, res) => {
       return res.status(404).json({ message: "Product not found" });
     }
     logger.info(`User Delete Product data: ${JSON.stringify(product)}`);
-    res.status(204).json({ message: "deleted Successfully" });
+    res.status(204).json({ message: "deleted Successfully", product });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

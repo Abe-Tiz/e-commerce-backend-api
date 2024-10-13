@@ -1,11 +1,10 @@
-
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const { checkConnection } = require("./config/DbConnection");
 dotenv.config();
 const port = process.env.PORT;
-const userRoutes = require("./routes/UserRoute")
+const userRoutes = require("./routes/UserRoute");
 const productRoutes = require("./routes/ProductRoute");
 const orderRoutes = require("./routes/OrderRoute");
 const loggeRoutes = require("./routes/LoggeRoute");
@@ -24,10 +23,8 @@ app.use("/product", productRoutes);
 app.use("/order", orderRoutes);
 app.use("/logge", loggeRoutes);
 
-
 app.listen(port, () => {
-  console.log(`server running on port ${port}`);
+  console.log(`Server running on port ${port}`);
 });
 
-
-module.exports = app; 
+module.exports = app;
