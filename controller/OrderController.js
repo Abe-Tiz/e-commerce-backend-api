@@ -1,4 +1,5 @@
 const { pool } = require("../config/DbConnection");
+const logger = require("../logging/Logger");
 const { create, findByUserId, findOrderById } = require("../model/OrderModel");
 const { findById, updateStock } = require("../model/ProductModel");
 const { orderSchema } = require("../validation/OrderValidation");
@@ -11,27 +12,23 @@ const placeOrder = async (req, res) => {
   }
 
   const { products, status } = result.data;
-  const user_id = req.user.id; 
+  const user_id = req.user.id;
   let total_price = 0;
 
   const client = await pool.connect();
   try {
+    // beggining of transaction to check the stock status
     await client.query("BEGIN");
-
-    // Check stock levels and calculate total price
     for (const item of products) {
       const product = await findById(item.product_id);
       if (!product || product.stock < item.quantity) {
         await client.query("ROLLBACK");
-        return res
-          .status(400)
-          .json({
-            message: `Insufficient stock for product ID ${item.product_id}`,
-          });
+        return res.status(400).json({
+          message: `Insufficient stock for product ID ${item.product_id}`,
+        });
       }
       total_price += product.price * item.quantity;
-      }
-      
+    }
     const order = await create({ user_id, products, total_price, status });
 
     // Update product stock
@@ -40,6 +37,7 @@ const placeOrder = async (req, res) => {
     }
 
     await client.query("COMMIT");
+    logger.info(`Order data: ${JSON.stringify(order)}`);
     res.status(201).json(order);
   } catch (error) {
     await client.query("ROLLBACK");
@@ -52,7 +50,7 @@ const placeOrder = async (req, res) => {
 
 // Get orders for the authenticated user
 const getOrders = async (req, res) => {
-  const user_id = req.user.id;  
+  const user_id = req.user.id;
   try {
     const orders = await findByUserId(user_id);
     res.status(200).json(orders);
@@ -68,7 +66,7 @@ const getOrderById = async (req, res) => {
   try {
     const order = await findOrderById(id);
     if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
+      return res.status(404).json({ message: "Order not found" });
     }
     res.status(200).json(order);
   } catch (error) {

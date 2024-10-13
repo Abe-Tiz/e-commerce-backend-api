@@ -3,17 +3,19 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { loginSchema } = require("../validation/UserValidation");
 const loginRateLimiter = require("../utils/RateLimiter");
+const logger = require("../logging/Logger");
 require("dotenv").config();
 
 // register user
 const register = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password,role } = req.body;
   try {
     const userExists = await findUserByEmail(email);
     if (userExists) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const newUser = await createUser(username, email, password);
+    const newUser = await createUser(username, email, password,role);
+     logger.info(`User registered: ${JSON.stringify(username, email,role)}`); 
     res
       .status(201)
       .json({ message: "User registered successfully", user: newUser });
@@ -48,6 +50,12 @@ const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
+     logger.info(
+       `User Loggedin data: ${JSON.stringify({
+         message: "Login successful",
+         token,
+       })}`
+     ); 
     res.status(200).json({ message: "Login successful", token });
   } catch (error) {
     console.error(error.message);
