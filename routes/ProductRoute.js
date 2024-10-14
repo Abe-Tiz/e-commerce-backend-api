@@ -1,8 +1,8 @@
 const express = require("express");
-const { createProduct, getProducts, getProductById, updateProduct, deleteProducts } = require("../controller/ProductController");
+const { createProduct, getProducts, getProductById, updateProduct, deleteProducts, uploadImage } = require("../controller/ProductController");
 const { checkAbility } = require("../middleware/Authorize");
 const authenticateUser = require("../middleware/AuthMiddleware");
-
+const {upload} = require("../utils/ImageUpload"); 
 
 
 const router = express.Router();
@@ -40,6 +40,14 @@ router.delete(
   authenticateUser,
   checkAbility("delete", "Product"),
   deleteProducts
+);
+
+router.post(
+  "/upload",
+  authenticateUser,
+  checkAbility("upload", "Product"),
+  upload.single("image"),
+  uploadImage
 );
 
 module.exports = router;

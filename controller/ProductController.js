@@ -102,10 +102,23 @@ const deleteProducts = async (req, res) => {
   }
 };
 
+
+const uploadImage = (req, res) => {
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+
+  res.status(200).json({
+    message: "File uploaded successfully",
+    filePath: req.file.path, 
+  });
+};
+
 module.exports = {
   createProduct,
   getProducts,
   getProductById,
   updateProduct,
   deleteProducts,
+  uploadImage,
 };
