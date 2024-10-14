@@ -31,16 +31,21 @@ const findById = async (id) => {
     return result.rows[0];
 }
 
- const deleteProduct = async (id) => {
-    const result = await pool.query('DELETE FROM products WHERE id = $1 RETURNING *', [id]);
-     if (result.rows.length === 0) {
-       return { message: "Product not found" };
-     }
-     return {
-       message: "Product successfully deleted",
-       product: result.rows[0],
-     };
-}
+const deleteProduct = async (id) => {
+  const result = await pool.query(
+    "DELETE FROM products WHERE id = $1 RETURNING *",
+    [id]
+  );
+
+  if (result.rows.length === 0) {
+    return { message: "Product not found" };
+  }
+
+  return {
+    message: "Product successfully deleted",
+    product: result.rows[0],
+  };
+};
   
   // Update stock method
   const updateStock = async (productId, quantityChange) => {
