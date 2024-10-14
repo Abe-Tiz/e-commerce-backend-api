@@ -51,7 +51,7 @@ const getProducts = async (req, res) => {
       await client.set(CACHE_KEY, JSON.stringify(products), "EX", 60);  
     }
 
-    const filteredProducts = applyFilters(products, {
+    const filteredProducts = Filter(products, {
       search,
       category,
       minPrice,
@@ -69,27 +69,27 @@ const getProducts = async (req, res) => {
   }
 };
 
-const applyFilters = (products, filters) => {
+const Filter = (products, filters) => {
   return products.filter((product) => {
     return (
-      matchesSearch(product, filters.search) &&
-      matchesCategory(product, filters.category) &&
-      matchesPriceRange(product, filters.minPrice, filters.maxPrice)
+      Search(product, filters.search) &&
+      Category(product, filters.category) &&
+      PriceRange(product, filters.minPrice, filters.maxPrice)
     );
   });
 };
 
-const matchesSearch = (product, search) => {
-  if (!search) return true;
-  return product.name.toLowerCase().includes(search.toLowerCase());
+const Search = (product, search) => {
+  if (!search && !product.name) return true;
+  return product.name.toLowerCase().startsWith(search.toLowerCase());
 };
 
-const matchesCategory = (product, category) => {
+const Category = (product, category) => {
   if (!category) return true;
   return product.category === category;
 };
 
-const matchesPriceRange = (product, minPrice, maxPrice) => {
+const PriceRange = (product, minPrice, maxPrice) => {
   const price = product.price;
   if (minPrice && price < parseFloat(minPrice)) return false;
   if (maxPrice && price > parseFloat(maxPrice)) return false;
