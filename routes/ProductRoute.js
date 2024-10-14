@@ -1,16 +1,22 @@
 const express = require("express");
-const { createProduct, getProducts, getProductById, updateProduct, deleteProducts, uploadImage } = require("../controller/ProductController");
+const {
+  createProduct,
+  getProducts,
+  getProductById,
+  updateProduct,
+  deleteProducts,
+  uploadImage,
+} = require("../controller/ProductController");
 const { checkAbility } = require("../middleware/Authorize");
 const authenticateUser = require("../middleware/AuthMiddleware");
-const {upload} = require("../utils/ImageUpload"); 
-
+const { upload } = require("../utils/ImageUpload");
 
 const router = express.Router();
 
 router.post(
   "/create",
-    authenticateUser,
-    checkAbility('create', 'Product'),
+  authenticateUser,
+  checkAbility("create", "Product"),
   createProduct
 );
 

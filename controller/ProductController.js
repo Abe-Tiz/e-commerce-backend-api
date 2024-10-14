@@ -37,23 +37,63 @@ const createProduct = async (req, res) => {
 };
 
 // Get all products
-
 const getProducts = async (req, res) => {
   try {
+    const { search, category, minPrice, maxPrice } = req.query;
+
     const cachedProducts = await client.get(CACHE_KEY);
+    let products = [];
+
     if (cachedProducts) {
-      const products = JSON.parse(cachedProducts); 
-      return res.status(200).json({"success redis": true,products});  
+      products = JSON.parse(cachedProducts);
+    } else {
+      products = await findAll(); 
+      await client.set(CACHE_KEY, JSON.stringify(products), "EX", 60);  
     }
-    const products = await findAll();
-    if (products.length === 0) {
+
+    const filteredProducts = applyFilters(products, {
+      search,
+      category,
+      minPrice,
+      maxPrice,
+    });
+
+    if (filteredProducts.length === 0) {
       return res.status(200).json({ message: "No records found" });
     }
-    await client.set(CACHE_KEY, JSON.stringify(products), "EX", 60);
-    res.status(200).json({ success: true, products });
+
+    res.status(200).json({ success: true, products: filteredProducts });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: error.message });
   }
+};
+
+const applyFilters = (products, filters) => {
+  return products.filter((product) => {
+    return (
+      matchesSearch(product, filters.search) &&
+      matchesCategory(product, filters.category) &&
+      matchesPriceRange(product, filters.minPrice, filters.maxPrice)
+    );
+  });
+};
+
+const matchesSearch = (product, search) => {
+  if (!search) return true;
+  return product.name.toLowerCase().includes(search.toLowerCase());
+};
+
+const matchesCategory = (product, category) => {
+  if (!category) return true;
+  return product.category === category;
+};
+
+const matchesPriceRange = (product, minPrice, maxPrice) => {
+  const price = product.price;
+  if (minPrice && price < parseFloat(minPrice)) return false;
+  if (maxPrice && price > parseFloat(maxPrice)) return false;
+  return true;
 };
 
 // Get a specific product by ID

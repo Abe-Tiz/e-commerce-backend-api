@@ -1,4 +1,3 @@
-// logReader.js
 const fs = require("fs");
 
 const readLogFile = (logFilePath) => {
