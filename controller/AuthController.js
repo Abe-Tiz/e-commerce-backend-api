@@ -6,7 +6,7 @@ const loginRateLimiter = require("../utils/RateLimiter");
 const logger = require("../logging/Logger");
 require("dotenv").config();
 
-// register user
+// register user for authentication
 const register = async (req, res) => {
   const { username, email, password,role } = req.body;
   try {
@@ -24,6 +24,7 @@ const register = async (req, res) => {
     res.status(500).json({ message: error.message});
   }
 };
+
 
 // login
 const login = async (req, res) => {
@@ -44,7 +45,6 @@ const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid email or password" });
       }
       req.user = { id: user.id, role: user.role };
-
     const token = jwt.sign(
       { id: user.id, role: user.role },
       process.env.JWT_SECRET,
