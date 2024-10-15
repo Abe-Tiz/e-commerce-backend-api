@@ -79,9 +79,15 @@ const Filter = (products, filters) => {
   });
 };
 
+
 const Search = (product, search) => {
-  if (!search && !product.name) return true;
-  return product.name.toLowerCase().startsWith(search.toLowerCase());
+  if (!search) return true;  
+  
+    if (product.name) {
+    return product.name.toLowerCase().startsWith(search.toLowerCase());
+  }
+  
+  return false; 
 };
 
 const Category = (product, category) => {
