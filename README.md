@@ -7,8 +7,11 @@ This is a backend API for an e-commerce platform, built with Node.js, Express, Z
 - **User Authentication**: Register and login users using JWT.
 - **Product Management**: Perform CRUD operations on products.
 - **Order Management**: Place orders and manage stock levels.
-- **Caching**: Products list is cached in Redis for performance optimization.
+- **Caching**: Product list is cached in Redis for performance optimization.
 - **Authorization**: Role-based access control using CASL.
+- **File Upload**: The admin uploads an image of the product.
+- **Filtering**: Filter the product using the product name, category, and price range in products endpoint `/product/views?name=test`, `/product/views?category="test category"`, `/product/views?minPrice=20&maxPrice=50`.
+- **Rate Limit**: The user failed to login attempts and revoked the user from trying to log in again for 15 minutes after multiple failed attempts
 
 ## Technologies
 
@@ -23,8 +26,8 @@ This is a backend API for an e-commerce platform, built with Node.js, Express, Z
 ## Setup Instructions
 
 ### Database Setup
-
-1. Make sure PostgreSQL is installed and running.
+      
+1. Make sure PostgreSQL is installed and running. 
 2. Configure the `POSTGRES_URL` in your `.env` file with your own database URL or the one provided:
    
    ```bash
@@ -35,7 +38,7 @@ This is a backend API for an e-commerce platform, built with Node.js, Express, Z
 
 1. Make sure Redis is installed and running.
    
-   - You can install Redis by following the official installation instructions: [https://redis.io/download](https://github.com/microsoftarchive/redis/releases)
+   - You can install Redis on the window Operating System by following the official installation instructions: [https://redis.io/download](https://github.com/microsoftarchive/redis/releases)
 
 2. Configure the `REDIS_URL` in your `.env` file:
    
