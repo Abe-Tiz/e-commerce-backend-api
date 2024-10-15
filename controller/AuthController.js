@@ -1,5 +1,5 @@
 const { findUserByEmail, createUser } = require("../model/UserModel");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { loginSchema } = require("../validation/UserValidation");
 const loginRateLimiter = require("../utils/RateLimiter");
