@@ -30,9 +30,11 @@ app.use("/product", productRoutes);
 app.use("/order", orderRoutes);
 app.use("/logge", loggeRoutes);
 
-app.get("/",(req,res) =>{
-  res.send("HELLO worLd")
-})
+
+app.get("/", async (req, res) => {
+  res.send("Hello ");
+});
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
