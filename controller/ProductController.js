@@ -118,7 +118,7 @@ const updateProduct = async (req, res) => {
     if (!parsedData.success) {
       return res
         .status(400)
-        .json({ message: parsedData.error.errors[0].message });
+        .json({ messageee: parsedData.error.errors[0].message });
     }
     const { name, description, price, stock, category } = parsedData.data;
     const product = await update(id, {
