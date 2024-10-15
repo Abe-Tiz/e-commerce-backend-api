@@ -56,11 +56,11 @@ This is a backend API for an e-commerce platform, built with Node.js, Express, Z
 
 Create a `.env` file in the root of the project and add the following:
   
-    ```bash
-    PORT=4000
-    JWT_SECRET=eiuhkjfnwoirkgjnrveiulksgnsruikjgnkfrehielusjkg
-    POSTGRES_URL="postgres://default:FKnT70UsyDmi@ep-bold-tooth-a426dj03-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
-    REDIS_URL="your redis server route "
+        ```bash
+        PORT=4000
+        JWT_SECRET=eiuhkjfnwoirkgjnrveiulksgnsruikjgnkfrehielusjkg
+        POSTGRES_URL="postgres://default:FKnT70UsyDmi@ep-bold-tooth-a426dj03-pooler.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
+        REDIS_URL="your redis server route "
 
 ## Testing the API
 
