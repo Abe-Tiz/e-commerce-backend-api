@@ -40,15 +40,16 @@ const createProduct = async (req, res) => {
 const getProducts = async (req, res) => {
   try {
     const { search, category, minPrice, maxPrice } = req.query;
-
     const cachedProducts = await client.get(CACHE_KEY);
     let products = [];
+    let fetchedFromCache = false;
 
     if (cachedProducts) {
       products = JSON.parse(cachedProducts);
+      fetchedFromCache = true;
     } else {
-      products = await findAll(); 
-      await client.set(CACHE_KEY, JSON.stringify(products), "EX", 60);  
+      products = await findAll();
+      await client.set(CACHE_KEY, JSON.stringify(products), "EX", 60);
     }
 
     const filteredProducts = Filter(products, {
@@ -62,7 +63,11 @@ const getProducts = async (req, res) => {
       return res.status(200).json({ message: "No records found" });
     }
 
-    res.status(200).json({ success: true, products: filteredProducts });
+    res.status(200).json({
+      success: true,
+      products: filteredProducts,
+      fetchedFromCache,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });

@@ -12,7 +12,7 @@ require("dotenv").config();
 const pool = new Pool({
   connectionString: process.env.POSTGRES_URL,
 });
-
+ 
 // Check the PostgreSQL connection
 const checkConnection = async () => {
   try {
